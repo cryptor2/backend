@@ -1,1 +1,3 @@
-# angular
+# Angular
+
+Starting learning :)
