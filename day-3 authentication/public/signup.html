@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sign up</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>sign up</h1>
+      <hr />
+      <label for="name">Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        placeholder="enter your name"
+        required
+      />
+      <label for="email">email</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Enter email"
+        required
+      />
+      <label for="password">password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="enter password"
+        required
+      />
+      <br />
+      <button type="submit" id="submit">sign up</button>
+      <a href="./signin.html">already have an account</a>
+    </main>
+    <script>
+      let signUpButton = document.querySelector("#submit");
+      let name = document.getElementById("name");
+      let email = document.getElementById("email");
+      let password = document.getElementById("password");
+      signUpButton.addEventListener("click", async () => {
+        let user = {
+          name: name.value,
+          email: email.value,
+          password: password.value,
+        };
+        let req = await fetch("http://localhost:8000/api/v1/signup", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          crossDomain: true,
+          body: JSON.stringify(user),
+        });
+        let message = await req.text();
+        alert(message);
+      });
+    </script>
+  </body>
+</html>
