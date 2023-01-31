@@ -28,7 +28,7 @@ router.post("/signup", async (req, res) => {
       res.send("InvalidPassword");
     }
     const Epassword = await bcrypt.hash(password, 10);
-    users[email] = { name, Epassword };
+    users[email] = { name, password: Epassword };
     res.send("Success");
   } catch (e) {}
 });
@@ -39,7 +39,7 @@ router.post("/signin", async (req, res) => {
     if (!users.hasOwnProperty(email)) {
       res.send("User not exist");
     }
-    const passMatch = await bcrypt.compare(password, users[email]);
+    const passMatch = await bcrypt.compare(password, users[email].password);
     if (!passMatch) {
       res.send("incorrect password");
     }
