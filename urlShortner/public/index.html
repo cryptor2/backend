@@ -19,6 +19,7 @@
         <form class="url-form">
           <input
             type="url-input"
+            class="url-input"
             type="url"
             placeholder="Paste in a link to shorten it"
             required
@@ -36,11 +37,11 @@
       const form = document.querySelector(".url-form");
       const result = document.querySelector(".result-section");
 
-      form.addEventListener("click", (event) => {
+      form.addEventListener("submit", (event) => {
         event.preventDefault();
         const input = document.querySelector(".url-input");
         fetch("/urlapi", {
-          method: POST,
+          method: "POST",
           headers: {
             Accept: "application/json",
             "Content-type": "application/json",
@@ -57,9 +58,10 @@
           })
           .then((data) => {
             console.log(data.shortUrl);
-            result.insertAdjacentElement(
+            result.insertAdjacentHTML(
               "afterbegin",
-              `<div class="result"> <a target="_blank" class="short-url" href="${data.shortUrl}"> ${data.shortUrl}</a></div>`
+              `<div class="result"> 
+                <a target="_blank" class="short-url" href="${data.shortUrl}"> ${data.shortUrl}</a></div>`
             );
           })
           .catch(console.error);
