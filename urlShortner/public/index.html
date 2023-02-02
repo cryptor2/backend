@@ -1,1 +1,69 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortner</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <main>
+      <section class="form-section text-center mb-5">
+        <h1 class="page-title">URL Shortner</h1>
+        <form class="url-form">
+          <input
+            type="url-input"
+            type="url"
+            placeholder="Paste in a link to shorten it"
+            required
+            name="url"
+            autofocus
+          />
+          <button type="submit" class="submit-button btn btn-primary ptn-sm">
+            Shorten!
+          </button>
+        </form>
+      </section>
+      <section class="result-section text-center"></section>
+    </main>
+    <script>
+      const form = document.querySelector(".url-form");
+      const result = document.querySelector(".result-section");
+
+      form.addEventListener("click", (event) => {
+        event.preventDefault();
+        const input = document.querySelector(".url-input");
+        fetch("/urlapi", {
+          method: POST,
+          headers: {
+            Accept: "application/json",
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            longUrl: input.value,
+          }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw Error(response.statusText);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data.shortUrl);
+            result.insertAdjacentElement(
+              "afterbegin",
+              `<div class="result"> <a target="_blank" class="short-url" href="${data.shortUrl}"> ${data.shortUrl}</a></div>`
+            );
+          })
+          .catch(console.error);
+      });
+    </script>
+  </body>
+</html>
