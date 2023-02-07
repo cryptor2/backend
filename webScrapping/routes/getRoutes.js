@@ -1,17 +1,16 @@
 const express = require("express");
-const router = express.Router();
-const main = require("../scrapeFn/scrape")
-router.post("/indeed", async (res, req) => {
+const routes = express.Router();
+const main = require("../scrapeFn/scrape");
+routes.post("/indeed", async (req, res) => {
   try {
+    console.log("req.body", req.body);
     const { skill } = req.body;
+    console.log("skill", skill);
     let scrp = await main(skill);
-    return (
-      res.status(200),
-      json({
-        status: "ok",
-        list: scrp?.list || {},
-      })
-    );
+    return res.status(200).json({
+      status: "ok",
+      list: scrp?.list || {},
+    });
   } catch (e) {
     return res.status(500).send(e);
   }

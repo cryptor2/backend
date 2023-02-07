@@ -7,7 +7,7 @@ async function main(skill) {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   // https://in.indeed.com/jobs?q={skill}&l=Chandigarh
-  page.goto(`https://in.indeed.com/jobs?q=${skill}&l=Chandigarh`, {
+  await page.goto(`https://in.indeed.com/jobs?q=${skill}&l=pune`, {
     timeout: 0,
     waitUntil: "networkidle0",
   });
@@ -35,7 +35,7 @@ async function main(skill) {
     return data;
   }, data);
   let response = await jobData;
-  let json =  JSON.stringify(jobData, null, 2);
+  let json = JSON.stringify(jobData, null, 2);
 
   fs.writeFile("job.json", json, "utf-8", () => {
     console.log("written in job.json");
@@ -43,4 +43,4 @@ async function main(skill) {
   browser.close();
   return response;
 }
-moldule.exports = main;
+module.exports = main;
